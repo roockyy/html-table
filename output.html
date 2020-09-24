@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>HTML Table</title>
+        <style type="text/css">
+            table, th, td {
+                height: 25px;
+                width: 30px
+            }
+            td:first-child {
+                text-align: right
+            }
+            td {
+                text-align: center
+            }
+            thead th:first-child {
+                background-color: white
+            }
+            thead th {
+                background-color: black;
+                color: white
+            }
+            .hidden {
+                display: none
+            }
+        </style>
+    </head>
+    <body>
+        <table style="width:100%">
+            <thead>
+                <th></th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <script type="text/javascript">
+        	table = document.getElementsByTagName('tbody')[0]
+        	for (let i of [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) {
+        		let tr = document.createElement('tr')
+        		let td = document.createElement('td')
+        		let b = document.createElement('b')
+        		const text = document.createTextNode(`${i}:00`)
+        		b.appendChild(text)
+        		td.appendChild(b)
+        		tr.appendChild(td)
+        		for (let j = 0; j < 7; j++) {
+        			td = document.createElement('td')
+        			tr.appendChild(td)
+        		}
+        		table.appendChild(tr)
+        		tr = document.createElement('tr')
+        		for (let j = 0; j < 8; j++) {
+        			td = document.createElement('td')
+        			tr.appendChild(td)
+        		}
+        		table.appendChild(tr)
+        	}
+            data = '[{"l":4,"e":1,"b":0,"s":0,"t":"Ben & Jerry\'s Show"},{"l":1,"e":1,"b":0,"s":4,"t":"Dances with Vampire Ratss"},{"l":4,"e":1,"b":0,"s":5,"t":"Sharp Report"},{"l":1,"e":0,"b":0,"s":9,"t":"Greaterthing Playing a Videogame"},{"l":1,"e":1,"b":0,"s":10,"t":"Get Confused!"},{"l":2,"e":1,"b":0,"s":11,"t":"Thoughtness Greasiest Cake"},{"l":2,"e":0,"b":0,"s":13,"t":"Running Dugbor"},{"l":2,"e":0,"b":0,"s":15,"t":"Police Cops"},{"l":2,"e":3,"b":0,"s":17,"t":"Damp Hospital"},{"l":2,"e":0,"b":0,"s":19,"t":"War is Peace"},{"l":1,"e":0,"b":0,"s":21,"t":"Drumstick Tapped"},{"l":1,"e":1,"b":0,"s":22,"t":"Ow, my Balls!"},{"l":1,"e":4,"b":0,"s":23,"t":"COPS in Brooklyn Center"},{"l":1,"e":2,"b":1,"s":9,"t":"The Thumb Show"},{"l":2,"e":1,"b":1,"s":13,"t":"Sliming Dugbor"},{"l":2,"e":2,"b":1,"s":15,"t":"IQ Dropper"},{"l":3,"e":4,"b":1,"s":19,"t":"Spam TV"},{"l":2,"e":6,"b":2,"s":0,"t":"Two Minutes Hate"},{"l":2,"e":3,"b":2,"s":2,"t":"North Brooklyn Center Running"},{"l":3,"e":2,"b":2,"s":4,"t":"The Dr. Smith Show"},{"l":2,"e":2,"b":2,"s":7,"t":"That Sunday Show"},{"l":4,"e":2,"b":2,"s":10,"t":"Sharp Confused Thing"},{"l":1,"e":3,"b":2,"s":14,"t":"Ow, my Toaster!"},{"l":1,"e":5,"b":2,"s":22,"t":"Married with Kidss"},{"l":4,"e":4,"b":3,"s":4,"t":"Thoughtness Rerun"},{"l":2,"e":3,"b":3,"s":8,"t":"Vampire Rats-Man"},{"l":2,"e":5,"b":3,"s":10,"t":"Greasiest Attraction"},{"l":2,"e":3,"b":3,"s":12,"t":"Citizen Osier"},{"l":2,"e":3,"b":3,"s":15,"t":"Saturday Beat"},{"l":1,"e":4,"b":4,"s":2,"t":"Damp Paid Programming"},{"l":1,"e":4,"b":4,"s":3,"t":"The Chronicles of Dugbor"},{"l":2,"e":4,"b":4,"s":8,"t":"The Cake Show"},{"l":7,"e":4,"b":4,"s":12,"t":"Drumstick Island"},{"l":3,"e":5,"b":5,"s":2,"t":"The Thumb Conspiracy"},{"l":4,"e":5,"b":5,"s":5,"t":"Informative Murder Porn"},{"l":1,"e":5,"b":5,"s":9,"t":"The Young and the Sharp"},{"l":5,"e":6,"b":5,"s":12,"t":"Brooklyn Center Hills 1337"},{"l":4,"e":5,"b":5,"s":17,"t":"Upchuck Talk"},{"l":1,"e":5,"b":5,"s":21,"t":"The Silence of the Kidss"},{"l":1,"e":5,"b":5,"s":23,"t":"Confused Paid Programming"},{"l":3,"e":6,"b":6,"s":2,"t":"People Who Look Like Stuff"},{"l":4,"e":6,"b":6,"s":5,"t":"Pay-Per-Download"},{"l":3,"e":6,"b":6,"s":9,"t":"Ooh!"},{"l":7,"e":6,"b":6,"s":17,"t":"Running for Vampire Rats"}]'
+            
+            schedule = JSON.parse(data)
+
+            table = document.getElementsByTagName('tr')
+
+            for (let i = 0; i < schedule.length; ++i) {
+                let title = schedule[i].t
+                let rowspan = schedule[i].l
+                let start_row = (schedule[i].s < 1 ? 0 : Math.floor(schedule[i].s / 2)) * 2 + (schedule[i].s % 2 ? 1 : 0)
+                let end_row = start_row + rowspan - 1
+                let start_col = schedule[i].b
+                let end_col = schedule[i].e
+                let colspan = end_col - start_col + 1
+
+                for (let j = 0; j < rowspan; j++) {
+                    let cells = table[start_row + j + 1].getElementsByTagName('td')
+                    for (let k = 0; k < colspan; k++) {
+                        if (j == 0 && k == 0) {
+                            let rint = Math.floor(0x100000000 * Math.random())
+                            cells[start_col + k + 1].innerHTML = title
+                            cells[start_col + k + 1].style.backgroundColor = 'rgba(' + (rint & 255) + ',' + (rint >> 8 & 255) + ',' + (rint >> 16 & 255) + ',' + (rint >> 24 & 255)/255 + ')'
+                            cells[start_col + k + 1].setAttribute('rowspan', `${rowspan}`)
+                            cells[start_col + k + 1].setAttribute('colspan', `${colspan}`)
+                        } else {
+                            cells[start_col + k + 1].classList.add('hidden')
+                        }
+                    }
+                }
+            }            
+        </script>
+    </body>
+</html>
